@@ -1,4 +1,7 @@
 import { Router } from "express"
+import { check } from "express-validator";
+import { ExisteusuarioporId, emailExiste, esRoleValido } from "../helpers/db_validators.js";
+import validarCampos from "../middlewares/validar_campos.js";
 import {
     userDelete,
     userGet,
@@ -11,11 +14,28 @@ const router = Router();
 
 router.get('/', userGet);
 
-router.put('/:id', userPut);
+router.put('/:id', [
+    check('id', 'Id no valido').isMongoId(),
+    check('id').custom(ExisteusuarioporId),
+    check('role').custom(esRoleValido),
+    validarCampos
+], userPut);
 
-router.post('/', userPost);
+router.post('/', [
+    check('name', 'El nombre es obligatorio').not().isEmpty(),
+    check('password', 'Contraseña obligatoria y debe ser más de 6 letras').isLength({ min: 6 }),
+    check('email', 'correo no valido').isEmail(),
+    check('email').custom(emailExiste),
+    //check('role', 'rol invalido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
+    check('role').custom(esRoleValido),
+    validarCampos
+], userPost);
 
-router.delete('/', userDelete);
+router.delete('/:id', [
+    check('id', 'Id no valido').isMongoId(),
+    check('id').custom(ExisteusuarioporId),
+    validarCampos
+], userDelete);
 
 router.patch('/', userPatch);
 
