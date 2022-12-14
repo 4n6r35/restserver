@@ -55,15 +55,16 @@ const userPost = async (req, res = response) => {
     });
 }
 
-const userDelete = async (req, res = response) => {
+const userDelete = async (req = request, res = response) => {
     const { id } = req.params;
     //Borrado fisicamente
     //const userD = await usuario.findByIdAndDelete(id)
     //Cambiando estado del estado/status
     const userD = await usuario.findByIdAndUpdate(id, { status: false })
     //Usuario autenticado
-    const UsuarioAut = req.usuario;
-    res.json({ userD, UsuarioAut });
+    // const UsuarioAut = req.usuario;
+    // res.json({userD, UsuarioAut});
+    res.json(userD);
 }
 
 const userPatch = (req, res = response) => {

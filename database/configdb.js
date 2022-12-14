@@ -7,9 +7,9 @@ const Connectiondb = async () => {
         mongoose.set('strictQuery', false);
         await mongoose.connect(process.env.MONGODB_CNN, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
         });
-        console.log('conexión esitosa de Base de Datos online')
+        console.log('conexión exitosa de Base de Datos online')
     } catch (error) {
         console.log(error)
         throw new Error('Error al iniciar base de datos')
@@ -17,4 +17,4 @@ const Connectiondb = async () => {
 
 }
 
-export default  Connectiondb 
+export default Connectiondb 
