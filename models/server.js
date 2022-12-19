@@ -1,3 +1,4 @@
+import fileUpload from 'express-fileupload'
 import express from 'express'
 import cors from 'cors'
 import userRouter from '../routers/user.js'
@@ -5,6 +6,7 @@ import authRouter from '../routers/auth.js'
 import ctgRouter from '../routers/categorias.js'
 import prodRouter from '../routers/productos.js'
 import buscarRouter from '../routers/buscar.js'
+import uploadsRouter from '../routers/uploads.js'
 import Connnectiondb from '../database/configdb.js'
 
 class Server {
@@ -17,6 +19,7 @@ class Server {
         this.ctgPath = '/api/categorias';
         this.productPath = '/api/productos';
         this.buscarPath = '/api/buscar';
+        this.uploadsPath = '/api/cargar'
 
 
         //Conectar Base de datos
@@ -38,6 +41,12 @@ class Server {
         this.app.use(express.json());
         //Directorio Público
         this.app.use(express.static('public'));
+        //Manejar carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
     }
 
     routes() {
@@ -46,6 +55,7 @@ class Server {
         this.app.use(this.ctgPath, ctgRouter)
         this.app.use(this.productPath, prodRouter)
         this.app.use(this.buscarPath, buscarRouter)
+        this.app.use(this.uploadsPath, uploadsRouter)
     }
 
     Port_listen() {
