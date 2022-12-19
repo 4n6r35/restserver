@@ -1,7 +1,9 @@
 import express from 'express'
 import cors from 'cors'
-import userRouter from '../routers/user.js';
+import userRouter from '../routers/user.js'
 import authRouter from '../routers/auth.js'
+import ctgRouter from '../routers/categorias.js'
+import routerprod from'../routers/productos.js'
 import Connnectiondb from '../database/configdb.js'
 
 class Server {
@@ -11,6 +13,8 @@ class Server {
         this.port = process.env.PORT;
         this.usuariosPath = '/api/usuarios';
         this.authPath = '/api/auth';
+        this.ctgPath = '/api/categorias'
+        this.productPath = '/api/productos'
 
         //Conectar Base de datos
         this.ConectarDB();
@@ -34,8 +38,10 @@ class Server {
     }
 
     routes() {
-        this.app.use(this.authPath, authRouter)
         this.app.use(this.usuariosPath, userRouter)
+        this.app.use(this.authPath, authRouter)
+        this.app.use(this.ctgPath, ctgRouter)
+        this.app.use(this.productPath,routerprod)
     }
 
     Port_listen() {
