@@ -99,12 +99,15 @@ const MostrarImg = async (req, res = response) => {
                 return res.sendFile(pathImagen)
             }
         }
-        res.json({ msg: 'Falta place holder' });
+        const pathImagen = path.join(process.cwd(), './assets/image-not-found.png')
+        res.sendFile(pathImagen);
 
 
     } catch (error) {
         res.status(400).json(error)
     }
+
+
 }
 
 export {
