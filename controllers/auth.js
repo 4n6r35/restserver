@@ -67,7 +67,7 @@ const googleSignIn = async (req = request, res = response) => {
                 msg: 'Hable con el administrador, usuario bloqueado'
             });
         }
-        const token = await generarJWT(Usuario.id);
+        const token = await generarJWT(usuario_google.id);
         res.json({
             usuario_google, token
         });
